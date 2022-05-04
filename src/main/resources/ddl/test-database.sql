@@ -1,0 +1,1 @@
+create database if not exists test default charset utf8mb4 default collate utf8mb4_general_ci;
