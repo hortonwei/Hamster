@@ -4,11 +4,13 @@
         "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 
 <mapper namespace="com.horton.dao.AppMapper">
-    <insert id="insertItem" parameterType="com.horton.VO.Item">
-        insert into test.bd_top(id, type, idx, title, intro, img, lcu)
-        values(#{id}, #{type}, #{idx}, #{title}, #{intro}, #{img}, #{lcu})
+    <insert id="insertBdTop" parameterType="com.horton.dto.BdTopDto">
+        insert into test.bd_top(id, src, type, idx, title, intro, img, lcu)
+        values(#{id}, #{src}, #{type}, #{idx}, #{title}, #{intro}, #{img}, #{lcu})
     </insert>
-    <update id="saveLog">
-        UPDATE `test`.`hamster_log` SET `count_exp` = count_exp + 1 WHERE (`id` = '1001');
-    </update>
+
+    <insert id="insertSinaHot" parameterType="com.horton.dto.SinaHotDto">
+        insert into test.sina_hot(mid, category, raw_hot, word, fun_word, channel_type, star_name, lcu)
+        VALUES(#{mid}, #{category}, #{rowHot}, #{word}, #{funWord}, #{channelType}, #{starName}, #{lcu})
+    </insert>
 </mapper>

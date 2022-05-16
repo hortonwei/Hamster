@@ -1,10 +1,11 @@
-package com.horton.VO;
+package com.horton.dto;
 
 import java.util.Date;
 
-public class Item {
+public class BdTopDto {
 
     private long id;
+    private String src;
     private String type;
     private int idx;
     private String title;
@@ -14,19 +15,7 @@ public class Item {
     private Date lcd;
     private String lcu;
 
-    public Item() {
-    }
-
-    public Item(long id, String type, int idx, String title, String intro, String img, Date fcd, Date lcd, String lcu) {
-        this.id = id;
-        this.type = type;
-        this.idx = idx;
-        this.title = title;
-        this.intro = intro;
-        this.img = img;
-        this.fcd = fcd;
-        this.lcd = lcd;
-        this.lcu = lcu;
+    public BdTopDto() {
     }
 
     public long getId() {
@@ -35,6 +24,13 @@ public class Item {
 
     public void setId(long id) {
         this.id = id;
+    }
+    public String getSrc() {
+        return src;
+    }
+
+    public void setSrc(String src) {
+        this.src = src;
     }
 
     public String getType() {

@@ -1,4 +1,5 @@
-create table if not exists test.bd_top(
+use test;
+create table if not exists bd_top(
     id bigint(20) unsigned primary key unique comment '主键',
     type enum('all','mov','tv') not null comment '热搜类型',
     idx int(8) unsigned comment '热度/指数',
@@ -11,6 +12,11 @@ create table if not exists test.bd_top(
     del enum('N','Y') default 'N' comment '是否已逻辑删除',
     unique index uk_title (title)
 ) Engine InnoDB comment = '百度热搜';
+
+drop index uk_title on bd_top;
+create unique index uk_title_intro on bd_top (title, intro);
+
+alter table bd_top add src enum('bd', 'sina') not null comment '来源' after id;
 
 #修改用户权限
 /*

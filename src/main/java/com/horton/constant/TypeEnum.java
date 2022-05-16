@@ -1,6 +1,6 @@
 package com.horton.constant;
 
-public enum TypeBase {
+public enum TypeEnum {
 
     all("all", "全部"),
     mov("mov", "电影"),
@@ -9,7 +9,7 @@ public enum TypeBase {
     private String type;
     private String intro;
 
-    TypeBase(String type, String intro) {
+    TypeEnum(String type, String intro) {
         this.type = type;
         this.intro = intro;
     }
