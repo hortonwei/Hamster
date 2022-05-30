@@ -13,4 +13,5 @@ create table if not exists sina_hot(
     del enum('N','Y') default 'N' comment '是否已逻辑删除'
 ) comment = '微博热搜';
 
-
+create index idx_word
+    on sina_hot (word);

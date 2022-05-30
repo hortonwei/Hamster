@@ -6,6 +6,10 @@ import com.horton.dto.SinaHotDto;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.time.LocalDateTime;
+import java.util.Date;
+import java.util.HashMap;
+
 @Service
 public class AppService {
 
@@ -18,5 +22,9 @@ public class AppService {
 
     public void insertSinaHot(SinaHotDto sinaHotDto) {
         appMapper.insertSinaHot(sinaHotDto);
+    }
+
+    public HashMap<String, LocalDateTime> queryByWord(String word) {
+        return appMapper.queryByWord(word);
     }
 }

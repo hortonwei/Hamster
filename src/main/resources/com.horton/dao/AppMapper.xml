@@ -13,4 +13,8 @@
         insert into test.sina_hot(mid, category, raw_hot, word, fun_word, channel_type, star_name, lcu)
         VALUES(#{mid}, #{category}, #{rowHot}, #{word}, #{funWord}, #{channelType}, #{starName}, #{lcu})
     </insert>
+
+    <select id="queryByWord" resultType="java.util.HashMap">
+        select fcd from sina_hot where word = #{word} limit 1
+    </select>
 </mapper>

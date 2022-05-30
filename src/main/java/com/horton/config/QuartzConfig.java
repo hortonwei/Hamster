@@ -34,7 +34,7 @@ public class QuartzConfig {
         //关联JobDetail对象
         factoryBean.setJobDetail(Objects.requireNonNull(jobDetailFactoryBean.getObject()));
         //该参数表示一个执行的毫秒数
-        factoryBean.setRepeatInterval(3600000); //每隔x毫秒执行一次, 1小时
+        factoryBean.setRepeatInterval(1800000); //每隔x毫秒执行一次, 30分钟
         //重复次数
         factoryBean.setRepeatCount(5000);
         return factoryBean;

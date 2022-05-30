@@ -2,12 +2,13 @@ package com.horton.controller;
 
 import com.alibaba.fastjson.JSONArray;
 import com.alibaba.fastjson.JSONObject;
-import com.horton.dto.BdTopDto;
 import com.horton.constant.LcuEnum;
 import com.horton.constant.SrcEnum;
 import com.horton.constant.TypeEnum;
+import com.horton.dto.BdTopDto;
 import com.horton.dto.SinaHotDto;
 import com.horton.service.AppService;
+import com.horton.util.DateTimeUtils;
 import com.horton.util.IdWorker;
 import lombok.SneakyThrows;
 import org.apache.http.HttpEntity;
@@ -20,10 +21,14 @@ import org.jsoup.nodes.Document;
 import org.jsoup.select.Elements;
 import org.quartz.Job;
 import org.quartz.JobExecutionContext;
-import org.quartz.JobExecutionException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import org.springframework.web.bind.annotation.RestController;
+
+import java.time.LocalDateTime;
+import java.time.ZoneOffset;
+import java.util.Date;
+import java.util.HashMap;
 
 @RestController
 @Component
@@ -78,16 +83,35 @@ public class AppController implements Job {
         JSONArray jsonArray = jsonObject.getJSONObject("data").getJSONArray("realtime");
         for (int i = 0; i < jsonArray.size(); i++) {
             JSONObject object = jsonArray.getJSONObject(i);
-            SinaHotDto sinaHotDto = new SinaHotDto();
+            Long onboardTime = object.getLong("onboard_time");
+            String word = object.getString("word");
+            int boardTime = 0;
+            HashMap<String, LocalDateTime> dateHashMap = null;
+            if (onboardTime != null) {
+                boardTime = Integer.parseInt(DateTimeUtils.stampToBaseDate(onboardTime * 1000));
+            }
+            if (boardTime != 0) {
+                dateHashMap = appService.queryByWord(word);
+            }
+            if (dateHashMap != null) {
+                LocalDateTime date = dateHashMap.get("fcd");
+                long epochMilli = date.toInstant(ZoneOffset.ofHours(8)).toEpochMilli();
+                String baseDate = DateTimeUtils.stampToBaseDate(epochMilli);
+                int fcd = Integer.parseInt(baseDate);
+                if (onboardTime < fcd + 1) {
+                    continue;
+                }
+            }
+
             String mid = object.getString("mid");
             String category = object.getString("category");
             Long rawHot = object.getLong("raw_hot");
-            String word = object.getString("word");
             int funWord = object.getIntValue("fun_word");
             String channelType = object.getString("channel_type");
-            if (mid == null) {
+            if (mid == null || mid.isEmpty()) {
                 continue;
             }
+            SinaHotDto sinaHotDto = new SinaHotDto();
             if (channelType.equals("Entertainment") || funWord == 1) {
                 String starName = object.get("star_name").toString();
                 if (!starName.isEmpty() && !starName.equals("{}")) {
